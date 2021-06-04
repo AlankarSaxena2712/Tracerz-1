@@ -18,7 +18,7 @@ const HomeStack = ({
         options={{
           headerStyle: {
             elevation: 3,
-            backgroundColor:"#D0F6F9"
+            backgroundColor: "#D0F6F9"
           },
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 18, textTransform: "uppercase", fontWeight: "bold" },
@@ -43,7 +43,7 @@ const HomeStack = ({
           title: route.params.title,
           headerStyle: {
             elevation: 5,
-            backgroundColor:"#D0F6F9"
+            backgroundColor: "#D0F6F9"
           },
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 18, textTransform: "uppercase", fontWeight: "bold" },
@@ -67,7 +67,7 @@ const HomeStack = ({
           title: `${route.params.title}`,
           headerStyle: {
             elevation: 0,
-            backgroundColor:"#D0F6F9"
+            backgroundColor: "#D0F6F9"
           },
           headerTitleAlign: "center",
           headerTitleStyle: { fontSize: 18, textTransform: "uppercase", fontWeight: "bold" },

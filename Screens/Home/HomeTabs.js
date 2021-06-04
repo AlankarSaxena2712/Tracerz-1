@@ -1,12 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
 import HomeStack from "./HomeStack";
 import PendingJob from "./PendingJob";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const BottomTab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 const HomeTabs = () => {
   return (

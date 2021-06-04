@@ -35,18 +35,21 @@ export default function Login({ navigation }) {
   const login = async () => {
     try {
       setLoading(true);
+      setDisabled(true);
       if (number.length !== 10) {
         setError(true);
         setErrorMsg("Enter a Valid Number!");
         setLoading(false);
+        setDisabled(false);
         return;
       } else {
         await phoneAuth(`+91${number}`);
+        setNumber("");
         setError(false);
         setSuccess(true);
         setSuccessMsg("Success!")
         setLoading(false);
-        setNumber("");
+        setDisabled(false);
         navigation.navigate("OTP");
       }
     } catch (e) {

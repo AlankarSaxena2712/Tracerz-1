@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Title } from "react-native-paper";
-import MapView, { PROVIDER_GOOGLE, Polyline } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { AuthContext } from "../../Routes/AuthProvider";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
@@ -17,7 +17,6 @@ import { StatusBar } from "expo-status-bar";
 import firestore from "@react-native-firebase/firestore";
 
 const LOCATION_TASK_NAME = "background-location-task";
-let History = [""];
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = (width / height) * 2;
@@ -25,13 +24,28 @@ const LATITUDE_DELTA = 0.002;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const Attendance = () => {
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [location, setLocation] = useState();
   const [active, setActive] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [history, setHistory] = useState([]);
+  const currentDate = new Date();
 
-  const { user } = useContext(AuthContext);
+  const locRef = firestore()
+    .collection("location")
+    .doc("user_loc")
+    .collection(`${user.phoneNumber}`)
+    .doc(`${currentDate.getDate()}`);
+
+  const locPathRef = firestore()
+    .collection("location")
+    .doc("user_loc")
+    .collection(`${user.phoneNumber}`)
+    .doc(`${currentDate.getDate()}_path`);
+
+  const userRef = firestore().collection("userData").doc(`${user.phoneNumber}`);
+
 
   useEffect(() => {
     (async () => {
@@ -51,6 +65,7 @@ const Attendance = () => {
 
   const onSnippet = () => {
     setActive(!active);
+    userRef.set({lastPunchIn: new Date()})
     ReactNativeForegroundService.add_task(
       () => {
         Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
@@ -86,6 +101,7 @@ const Attendance = () => {
         }
       }
     );
+    locPathRef.set({ path: history });
   };
 
   TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
@@ -100,15 +116,10 @@ const Attendance = () => {
         },
       ],
     } = data;
-
     try {
       const currentDate = new Date();
-      const locRef = firestore()
-        .collection("location")
-        .doc("user_loc")
-        .collection(`${user.phoneNumber}`)
-        .doc(`${currentDate.getDate()}`);
       locRef.set({ latitude, longitude, time: currentDate });
+      setHistory(history => [...history, { latitude, longitude, time: currentDate }])
     } catch (err) {
       console.log(err);
     }
@@ -144,13 +155,13 @@ const Attendance = () => {
         <Title style={styles.title}>
           {user.displayName
             ? `${user.displayName}${"\n"}${user.phoneNumber.substr(
-                0,
-                3
-              )} ${user.phoneNumber.substr(3, 12)}`
+              0,
+              3
+            )} ${user.phoneNumber.substr(3, 12)}`
             : `${user.phoneNumber.substr(0, 3)} ${user.phoneNumber.substr(
-                3,
-                12
-              )}`}
+              3,
+              12
+            )}`}
         </Title>
         <TouchableOpacity
           style={[styles.button, active ? { backgroundColor: "#DC3545" } : {}]}

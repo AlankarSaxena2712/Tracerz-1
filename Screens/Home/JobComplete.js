@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Image,
@@ -11,7 +11,6 @@ import {
 import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
 import firestore from "@react-native-firebase/firestore";
-import { AuthContext } from "../../Routes/AuthProvider";
 import { StatusBar } from "expo-status-bar";
 
 const { width, height } = Dimensions.get("window");
@@ -22,9 +21,8 @@ const JobComplete = ({ route, navigation }) => {
     "https://uonam1hug0i75oy12t2nhi2t-wpengine.netdna-ssl.com/wp-content/uploads/2019/01/image-placeholder-500x500.jpg"
   );
   const [disable, setDisable] = useState(true);
-  const { user } = useContext(AuthContext);
 
-  const { id, title } = route.params;
+  const { id } = route.params;
 
   const takePhotoFromCamera = () => {
     ImagePicker.openCamera({
@@ -44,7 +42,7 @@ const JobComplete = ({ route, navigation }) => {
     try {
       setIsUploading(true);
       const reference = storage().ref(
-        `Job Images/${user.phoneNumber}/${imageName}`
+        `Job Images/${imageName}`
       );
       await reference.putFile(path);
       console.log("Uploaded");
@@ -87,7 +85,7 @@ const JobComplete = ({ route, navigation }) => {
           onPress={() => {
             uploadPhoto(
               image,
-              `${route.params.id}_${new Date().toLocaleTimeString()}`
+              route.params.id
             );
           }}
         >
