@@ -1,0 +1,12 @@
+{
+  "name": "Tracerz",
+  "displayName": "Tracerz",
+  "expo": {
+    "name": "Tracerz",
+    "slug": "Tracerz",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
