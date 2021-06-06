@@ -46,7 +46,7 @@ const JobComplete = ({ route, navigation }) => {
       );
       await reference.putFile(path);
       console.log("Uploaded");
-      await firestore().collection("jobs").doc(id).update({ completed: true });
+      await firestore().collection("jobs").doc(id).update({ completed: true, completionDate: new Date() });
       await navigation.navigate("Home");
       setIsUploading(false);
     } catch (e) {
