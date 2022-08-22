@@ -46,7 +46,7 @@ const DrawerContent = (props) => {
                   alignItems: "center",
                 }}
               >
-                <Caption
+                {/* <Caption
                   style={{
                     color: "#0AB5C2",
                     fontSize: 12,
@@ -64,7 +64,7 @@ const DrawerContent = (props) => {
                   }}
                 >
                   Edit Profile
-                </Caption>
+                </Caption> */}
               </View>
             </View>
           </Drawer.Section>
@@ -109,7 +109,7 @@ const DrawerContent = (props) => {
               }}
             />
             {/* SETTINGS */}
-            <DrawerItem
+            {/* <DrawerItem
               focused={focus === "Settings"}
               activeTintColor="#0AB5C2"
               icon={({ color, size }) => (
@@ -120,7 +120,7 @@ const DrawerContent = (props) => {
                 props.navigation.navigate("Settings");
                 setFocus("Settings");
               }}
-            />
+            /> */}
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
@@ -135,7 +135,7 @@ const DrawerContent = (props) => {
         />
       </Drawer.Section>
       <Drawer.Section>
-        <Text style={styles.muted}>Tracerz © 2021</Text>
+        <Text style={styles.muted}>Tracerz © 2022</Text>
       </Drawer.Section>
     </View>
   );

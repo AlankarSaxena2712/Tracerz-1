@@ -8,6 +8,7 @@ import AttendanceStack from "../../Screens/Attendance/AttendanceStack";
 import NewCustomerStack from "../../Screens/NewCustomer/NewCustomerStack";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import DrawerContent from "./DrawerContent";
 
@@ -21,9 +22,22 @@ const DrawerNavigation = () => {
       )}
       drawerType="slide"
       initialRouteName="AttendanceStack"
+      screenOptions={{
+        headerLeft: () => (
+          <Icon
+            name="menu"
+            size={24}
+            backgroundColor="red"
+            underlayColor="transparent"
+            onPress={() => {
+              props.navigation.toggleDrawer();
+            } }
+          />
+        ),
+       }}
     >
-    <Drawer.Screen name="AttendanceStack" component={AttendanceStack} />
     <Drawer.Screen name="HomeTabs" component={HomeTabs} />
+    <Drawer.Screen name="AttendanceStack" component={AttendanceStack} />
     <Drawer.Screen name="NewCustomerStack" component={NewCustomerStack} />
     <Drawer.Screen name="Settings" component={Settings} />
     <Drawer.Screen name="Profile" component={Profile} />

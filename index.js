@@ -1,3 +1,4 @@
+import "react-native-gesture-handler"
 import { registerRootComponent } from 'expo';
 import ReactNativeForegroundService from "@supersami/rn-foreground-service";
 import { AppRegistry } from "react-native";
