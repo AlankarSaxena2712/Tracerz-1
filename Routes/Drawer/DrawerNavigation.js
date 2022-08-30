@@ -11,6 +11,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import DrawerContent from "./DrawerContent";
+import ExpenseStack from "../../Screens/Expense/ExpenseStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -41,6 +42,7 @@ const DrawerNavigation = () => {
     <Drawer.Screen name="NewCustomerStack" component={NewCustomerStack} />
     <Drawer.Screen name="Settings" component={Settings} />
     <Drawer.Screen name="Profile" component={Profile} />
+    <Drawer.Screen name="ExpenseStack" component={ExpenseStack} />
     </Drawer.Navigator>
   );
 };

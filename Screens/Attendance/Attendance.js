@@ -29,7 +29,6 @@ const Attendance = () => {
   const [location, setLocation] = useState();
   const [active, setActive] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [history, setHistory] = useState([]);
   const currentDate = new Date();
 
   const locRef = firestore()
@@ -65,7 +64,7 @@ const Attendance = () => {
 
   const onSnippet = () => {
     setActive(!active);
-    userRef.set({lastPunchIn: new Date()})
+    userRef.update({lastPunchIn: new Date()})
     ReactNativeForegroundService.add_task(
       () => {
         Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
@@ -101,7 +100,6 @@ const Attendance = () => {
         }
       }
     );
-    locPathRef.set({ path: history });
   };
 
   TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
@@ -119,7 +117,9 @@ const Attendance = () => {
     try {
       const currentDate = new Date();
       locRef.set({ latitude, longitude, time: currentDate });
-      setHistory(history => [...history, { latitude, longitude, time: currentDate }])
+      locPathRef.set({
+        path: firestore.FieldValue.arrayUnion({ latitude, longitude, time: currentDate }),
+      }, { merge: true })
     } catch (err) {
       console.log(err);
     }

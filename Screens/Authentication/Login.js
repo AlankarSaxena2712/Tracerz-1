@@ -23,6 +23,7 @@ const Logo = () => {
 
 export default function Login({ navigation }) {
   const [number, setNumber] = useState("");
+  const [userId, setUserId] = useState("");
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState(false);
@@ -42,8 +43,14 @@ export default function Login({ navigation }) {
         setLoading(false);
         setDisabled(false);
         return;
+      } else if (userId.length > 6) {
+        setError(true);
+        setErrorMsg("Enter a Valid User Id!");
+        setLoading(false);
+        setDisabled(false);
+        return;
       } else {
-        await phoneAuth(`+91${number}`);
+        await phoneAuth(`+91${number}`, userId);
         setNumber("");
         setError(false);
         setSuccess(true);
@@ -86,6 +93,16 @@ export default function Login({ navigation }) {
           onChangeText={(userNumber) => {
             setNumber(userNumber);
           }}
+        />
+        <TextInput
+          placeholder="User Id"
+          style={styles.input}
+          keyboardType="numeric"
+          maxLength={10}
+          onChangeText={(text) => {
+            setUserId(text);
+          }}
+          autoCapitalize="characters"
         />
         <TouchableOpacity
           disabled={disabled}

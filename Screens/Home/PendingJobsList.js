@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -6,14 +6,18 @@ import {
   ActivityIndicator,
   View,
   RefreshControl,
+  Text,
 } from "react-native";
 import Card from "./Card";
 import firestore from "@react-native-firebase/firestore";
+import { AuthContext } from "../../Routes/AuthProvider";
 
 const PendingTaskList = ({ navigation }) => {
   const [jobData, setJobData] = useState();
   const [initializing, setInitializing] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  const { userId } = useContext(AuthContext);
 
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -27,7 +31,9 @@ const PendingTaskList = ({ navigation }) => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((documentSnap) => {
-          temp.push(documentSnap.data());
+          if (documentSnap.data().user_id === userId) {
+            temp.push(documentSnap.data());
+          }
         });
         setJobData(temp);
       })
@@ -65,21 +71,43 @@ const PendingTaskList = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      {jobData?.map((item) => (
-        <Card
-          key={item._id}
-          id={item._id}
-          title={item.title}
-          description={item.description}
-          latitude={item.location._latitude}
-          longitude={item.location._longitude}
-          date={`${item.date.toDate().getDate()}-${
-            item.date.toDate().getMonth() + 1
-          }-${item.date.toDate().getFullYear()}`}
-          completed={item.completed}
-          navigation={navigation}
-        />
-      ))}
+      {jobData?.length > 0 ? (
+        jobData?.map((item) => (
+          <Card
+            key={item._id}
+            id={item._id}
+            title={item.title}
+            description={item.description}
+            latitude={item.location._latitude}
+            longitude={item.location._longitude}
+            date={`${item.date.toDate().getDate()}-${
+              item.date.toDate().getMonth() + 1
+            }-${item.date.toDate().getFullYear()}`}
+            completed={item.completed}
+            navigation={navigation}
+          />
+        ))
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            height: 300,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: 20,
+            }}
+          >
+            No pending tasks
+          </Text>
+        </View>
+      )}
     </ScrollView>
   );
 };

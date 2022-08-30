@@ -14,7 +14,7 @@ const NewCustomer = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   
-  const { user } = useContext(AuthContext);
+  const { user, userId } = useContext(AuthContext);
 
   const onAddNew = async () => {
     setLoading(true);
@@ -30,6 +30,7 @@ const NewCustomer = () => {
           number: number,
           notes: notes,
           representative: user.phoneNumber,
+          user_id: userId,
         });
         setName("");
         setNumber("");

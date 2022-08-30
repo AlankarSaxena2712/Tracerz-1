@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Title, Caption, Drawer } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import { AuthContext } from "../AuthProvider";
 
@@ -96,6 +97,19 @@ const DrawerContent = (props) => {
               }}
             />
             {/* NEW CUSTOMER */}
+            <DrawerItem
+              focused={focus === "ExpenseStack"}
+              activeTintColor="#0AB5C2"
+              icon={({ color, size }) => (
+                <MaterialIcons name="attach-money" color={color} size={size} />
+              )}
+              label="Expense"
+              onPress={() => {
+                props.navigation.navigate("ExpenseStack");
+                setFocus("ExpenseStack");
+              }}
+            />
+            {/* EXPENSE */}
             <DrawerItem
               focused={focus === "NewCustomerStack"}
               activeTintColor="#0AB5C2"

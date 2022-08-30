@@ -1,9 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import NewCustomer from "./NewCustomer";
-import CustomerList from "./CustomerList";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import AddExpense from "./AddExpense";
+import ExpenseList from "./ExpenseList";
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -12,8 +13,8 @@ const First = ({ navigation }) => {
   return (
     <Stack.Navigator mode={"modal"}>
       <Stack.Screen
-        name="NewCustomer"
-        component={NewCustomer}
+        name="AddExpense"
+        component={AddExpense}
         options={{
           headerStyle: {
             elevation: 3,
@@ -21,7 +22,7 @@ const First = ({ navigation }) => {
           },
           headerTitleAlign: "center",
           headerTitleStyle: { textTransform: "uppercase", fontWeight: "bold" },
-          title: "Add Customer",
+          title: "Add Expense",
           headerLeftContainerStyle: { paddingLeft: 10 },
           headerLeft: () => (
             <Icon
@@ -42,8 +43,8 @@ const Second = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="CustomerList"
-        component={CustomerList}
+        name="ExpenseList"
+        component={ExpenseList}
         options={{
           headerStyle: {
             elevation: 3,
@@ -51,7 +52,7 @@ const Second = ({ navigation }) => {
           },
           headerTitleAlign: "center",
           headerTitleStyle: { textTransform: "uppercase", fontWeight: "bold" },
-          title: "Customer List",
+          title: "Expense List",
           headerLeftContainerStyle: { paddingLeft: 10 },
           headerLeft: () => (
             <Icon
@@ -69,7 +70,7 @@ const Second = ({ navigation }) => {
   );
 };
 
-const NewCustomerBottomTab = ({
+const ExpenseBottomTab = ({
   title,
   description,
   latitude,
@@ -80,16 +81,16 @@ const NewCustomerBottomTab = ({
 }) => {
   return (
     <BottomTab.Navigator
-      initialRouteName="NewCustomer"
+      initialRouteName="AddExpense"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
-          if (route.name === "NewCustomer") {
-            iconName = "account-plus";
-          } else if (route.name === "CustomerList") {
+          if (route.name === "AddExpense") {
+            iconName = "add-circle";
+          } else if (route.name === "ExpenseList") {
             iconName = "format-list-bulleted";
           }
-          return <Icon name={iconName} size={size} color={color} />;
+          return <MaterialIcon name={iconName} size={size} color={color} />;
         },
       })}
       tabBarOptions={{
@@ -98,17 +99,17 @@ const NewCustomerBottomTab = ({
       }}
     >
       <BottomTab.Screen
-        options={{ title: "Add Customer" }}
-        name="NewCustomer"
+        options={{ title: "Add Expense" }}
+        name="AddExpense"
         component={First}
       />
-      {/* <BottomTab.Screen
-        options={{ title: "Customer List" }}
-        name="CustomerList"
+      <BottomTab.Screen
+        options={{ title: "Expense List" }}
+        name="ExpenseList"
         component={Second}
-      /> */}
+      />
     </BottomTab.Navigator>
   );
 };
 
-export default NewCustomerBottomTab;
+export default ExpenseBottomTab;
