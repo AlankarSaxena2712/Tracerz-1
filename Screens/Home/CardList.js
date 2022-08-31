@@ -17,7 +17,7 @@ const CardList = ({ navigation }) => {
   const [initializing, setInitializing] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const { userId } = useContext(AuthContext);
+  const { userId, user } = useContext(AuthContext);
 
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -31,7 +31,7 @@ const CardList = ({ navigation }) => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((documentSnap) => {
-          if (documentSnap.data().user_id === userId) {
+          if (documentSnap.data().user_id === userId && documentSnap.data().forUser === user.phoneNumber) {
             temp.push(documentSnap.data());
           }
         });
